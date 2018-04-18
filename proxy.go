@@ -71,7 +71,7 @@ func (proxyServer *ProxyServer) handleProxyClientRequest(client net.Conn) {
 	fmt.Sscanf(firstLine, "%s%s", &method, &host)
 	hostPortURL, err := url.Parse(host)
 	if err != nil {
-		log.Println("[ERROR] failed to parse host: `%s`, error: %v", host, err)
+		log.Printf("[ERROR] failed to parse host: `%s`, error: %v", host, err)
 		return
 	}
 
