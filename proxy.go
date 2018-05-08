@@ -7,7 +7,6 @@ import (
 	"log"
 	"net"
 	"net/url"
-	"strings"
 	"sync"
 )
 
@@ -78,10 +77,13 @@ func (proxyServer *ProxyServer) handleProxyClientRequest(client net.Conn) {
 	if hostPortURL.Opaque == "443" { //https访问
 		address = hostPortURL.Scheme + ":443"
 	} else { //http访问
-		if strings.Index(hostPortURL.Host, ":") == -1 { //host不带端口， 默认80
-			address = hostPortURL.Host + ":80"
+		hostname := hostPortURL.Hostname()
+		port := hostPortURL.Port()
+
+		if port == "" { //host不带端口， 默认80
+			address = hostname + ":80"
 		} else {
-			address = hostPortURL.Host
+			address = hostname + ":" + port
 		}
 	}
 
